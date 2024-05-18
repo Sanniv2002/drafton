@@ -31,6 +31,7 @@ export async function POST(req: NextRequest) {
     });
     for (let i = 0; i < proposalTemplates.length; i++) {
       const proposal = (await generate(JSON.stringify(details), i)) || [];
+      console.log(proposal)
       const generatedProposal = await prisma.proposal.create({
         data: {
           title: i.toString(),
@@ -38,6 +39,7 @@ export async function POST(req: NextRequest) {
           userId: userId,
         },
       });
+      console.log("ghusa")
     }
     return NextResponse.json(
       {
@@ -70,6 +72,7 @@ const generate = async (prompt: string, templateIdx: number) => {
     });
     return completion.choices;
   } catch (e) {
+    console.log(e)
     return;
   }
 };

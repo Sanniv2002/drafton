@@ -88,7 +88,7 @@ export default function Form() {
                     problems: problemsRef.current,
                     solutions: solutionsRef.current
                 })
-                await axios.post("https://drafton.vercel.app/api/generate", {
+                await axios.post("https://dist-drafton.onrender.com/api/v1/generate", {
                     userId: userId,
                     name: companyNameRef.current,
                     details: detailsRef.current,
@@ -100,7 +100,7 @@ export default function Form() {
                     problems: problemsRef.current,
                     solutions: solutionsRef.current,
                 })
-                setGenerating(false)
+                setTimeout(() => setGenerating(false), 60000)
             }
             catch (e) {
                 toast({
