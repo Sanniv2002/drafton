@@ -1,33 +1,18 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+This is a GEN-AI based Proposal generating fullstack web app. Based on gpt-3.5-turbo LLM model.
 
 ## Getting Started
 
-First, run the development server:
+Steps to start the project locally:
 
+1. Get a local mongodb database, OPENAI API KEY.
+2. Put these in the .env file.
+3. Run these commands
 ```bash
+npm i
+npx prisma generate
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+The api/v1/generate backend endpoint was needed to be shifted to Render due to Vercel's gateway timeout limit, so the app/api/generate file in this production is redundant.
 
 ## Deploy on Vercel
 
