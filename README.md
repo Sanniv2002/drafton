@@ -12,7 +12,7 @@ npm i
 npx prisma generate
 npm run dev
 ```
-The api/v1/generate backend endpoint was needed to be shifted to Render due to Vercel's gateway timeout limit, so the app/api/generate file in this production is redundant.
+The api/v1/generate backend endpoint was needed to be shifted to Render due to Vercel's gateway timeout limit on freee tier, so the app/api/generate file in this production is redundant.
 
 ## Deploy on Vercel
 
