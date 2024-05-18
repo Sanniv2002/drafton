@@ -107,6 +107,7 @@ export default function Form() {
                     title: "Uh oh! Something went wrong.",
                     description: "One or more fields are missing",
                 })
+                console.log(e)
                 setFloat(false)
                 setGenerating(false)
             }
