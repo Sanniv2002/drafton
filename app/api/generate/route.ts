@@ -12,40 +12,48 @@ export function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  const body = await req.json();
-  const userId = body.userId;
-  const details = await prisma.companyDetails.create({
-    data: {
-      userId: userId,
-      name: body.name,
-      details: body.details,
-      testimonials: body.testimonials,
-      previous_projects: body.previous_projects,
-      executive_summary: body.executive_summary,
-      pricing_sector: body.pricing_sector,
-      objectives: body.objectives,
-      problems: body.problems,
-      solutions: body.solutions,
-    },
-  });
-  for (let i = 0; i < proposalTemplates.length; i++) {
-    const proposal = (await generate(JSON.stringify(details), i)) || [];
-    const generatedProposal = await prisma.proposal.create({
+  try {
+    const body = await req.json();
+    const userId = body.userId;
+    const details = await prisma.companyDetails.create({
       data: {
-        title: i.toString(),
-        content: proposal[0].message.content as string,
         userId: userId,
+        name: body.name,
+        details: body.details,
+        testimonials: body.testimonials,
+        previous_projects: body.previous_projects,
+        executive_summary: body.executive_summary,
+        pricing_sector: body.pricing_sector,
+        objectives: body.objectives,
+        problems: body.problems,
+        solutions: body.solutions,
       },
     });
+    for (let i = 0; i < proposalTemplates.length; i++) {
+      const proposal = (await generate(JSON.stringify(details), i)) || [];
+      const generatedProposal = await prisma.proposal.create({
+        data: {
+          title: i.toString(),
+          content: proposal[0].message.content as string,
+          userId: userId,
+        },
+      });
+    }
+    return NextResponse.json(
+      {
+        message: "ok",
+      },
+      { status: 200 }
+    );
+  } catch (e) {
+    return NextResponse.json(
+      {
+        message: e,
+      },
+      { status: 500 }
+    );
   }
-  return NextResponse.json(
-    {
-      message: "ok",
-    },
-    { status: 200 }
-  );
 }
-
 
 //Function to generate the proposal for a prompt and a template index
 const generate = async (prompt: string, templateIdx: number) => {
