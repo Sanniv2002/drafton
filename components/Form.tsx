@@ -65,13 +65,12 @@ export default function Form() {
     useEffect(() => {
         async function init(){
             const proposalsExist = await axios.get(`http://localhost:3000/api/proposals?userId=${userId}`)
-            console.log(proposalsExist)
             if(proposalsExist.data.proposals.length){
                 router.push(`/dashboard/${userId}`)
             }
         }
         init()
-    }, [])
+    }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
     function ButtonOutline() {
         return <Button onClick={async () => {
