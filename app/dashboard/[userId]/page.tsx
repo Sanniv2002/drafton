@@ -34,7 +34,7 @@ export default function Page({
 
   useEffect(() => {
     async function init() {
-      const axiosData = await axios.get(`http://localhost:3000/api/proposals?userId=${params.userId}`)
+      const axiosData = await axios.get(`https://drafton.vercel.app/api/proposals?userId=${params.userId}`)
       setProposals(axiosData.data.proposals)
     }
     init()
