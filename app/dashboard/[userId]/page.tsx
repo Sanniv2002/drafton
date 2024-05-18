@@ -7,7 +7,7 @@ import { signOut } from "next-auth/react";
 
 import { Button } from "@/components/ui/button"
 
-export function ButtonDestructive() {
+function ButtonDestructive() {
   return <Button onClick={() =>
     signOut({
       redirect: true,
