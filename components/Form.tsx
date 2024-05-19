@@ -103,7 +103,7 @@ export default function Form() {
                     problems: problemsRef.current,
                     solutions: solutionsRef.current,
                 })
-                setTimeout(() => setGenerating(false), 60000)
+                setTimeout(() => setGenerating(false), 45000)
             }
             catch (e) {
                 toast({
@@ -189,7 +189,6 @@ export default function Form() {
                 <Toaster />
                 <Floating onClick={() => router.push(`/dashboard/${userId}`)} generating={generating} setFloat={setFloat} float={float} />
             </div>}
-
         </>
     );
 }
