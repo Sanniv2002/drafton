@@ -15,12 +15,12 @@ import { useSession } from "next-auth/react"
 
 declare module "next-auth" {
     interface Session {
-      user: {
-        id: string;
-        username: string;
-      };
+        user: {
+            id: string;
+            username: string;
+        };
     }
-  }
+}
 
 const companySchema = z.object({
     companyName: z.string().min(1),
@@ -56,6 +56,7 @@ export default function Form() {
 
     const [generating, setGenerating] = useState(false)
     const [float, setFloat] = useState(false)
+    const [loading, setLoading] = useState(true)
 
     const { toast } = useToast()
     const router = useRouter()
@@ -63,11 +64,13 @@ export default function Form() {
     const userId = session?.user.id
 
     useEffect(() => {
-        async function init(){
+        async function init() {
+            //https://drafton.vercel.app/api/proposals?userId=${userId}
             const proposalsExist = await axios.get(`https://drafton.vercel.app/api/proposals?userId=${userId}`)
-            if(proposalsExist.data.proposals.length){
+            if (proposalsExist.data.proposals.length) {
                 router.push(`/dashboard/${userId}`)
             }
+            setLoading(false)
         }
         init()
     }, []) // eslint-disable-line react-hooks/exhaustive-deps
@@ -115,60 +118,78 @@ export default function Form() {
     }
 
     return (
-        <div className="grid lg:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-4 p-5">
-            <div>
-                <h2 className="text-white text-sm">Company Name <span className="text-red-500">*</span></h2>
-                <Input
-                    required
-                    className="bg-[#09090B] text-white text-sm"
-                    type="text"
-                    placeholder="Netflix"
-                    onChange={(e) => companyNameRef.current = e.target.value}
+        <>
+            {loading ? <div className="bg-black min-h-screen h-full flex justify-center items-center">
+                <svg
+                    className="animate-spin text-white size-20"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                >
+                    <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+                </svg>
+            </div> : <div className="grid lg:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-4 p-5">
+                <div>
+                    <h2 className="text-white text-sm">Company Name <span className="text-red-500">*</span></h2>
+                    <Input
+                        required
+                        className="bg-[#09090B] text-white text-sm"
+                        type="text"
+                        placeholder="Netflix"
+                        onChange={(e) => companyNameRef.current = e.target.value}
+                    />
+                </div>
+                <InputArea
+                    fieldName="Details of your company"
+                    onChange={(e) => detailsRef.current = e.target.value}
+                    placeholder="Started on 2020"
                 />
-            </div>
-            <InputArea
-                fieldName="Details of your company"
-                onChange={(e) => detailsRef.current = e.target.value}
-                placeholder="Started on 2020"
-            />
-            <InputArea
-                fieldName="Testimonials"
-                onChange={(e) => testimonialsRef.current = e.target.value}
-                placeholder="We Have FDA Approvals"
-            />
-            <InputArea
-                fieldName="Previous Projects"
-                onChange={(e) => previousProjectsRef.current = e.target.value}
-                placeholder="Taste Salts"
-            />
-            <InputArea
-                fieldName="Executive Summary"
-                onChange={(e) => executiveSummaryRef.current = e.target.value}
-                placeholder="We are delighted..."
-            />
-            <InputArea
-                fieldName="Pricing Sector"
-                onChange={(e) => pricingSectorRef.current = e.target.value}
-                placeholder="It's as cheap as..."
-            />
-            <InputArea
-                fieldName="Objectives"
-                onChange={(e) => objectivesRef.current = e.target.value}
-                placeholder="We aim to..."
-            />
-            <InputArea
-                fieldName="Problems"
-                onChange={(e) => problemsRef.current = e.target.value}
-                placeholder="Enter your message here"
-            />
-            <InputArea
-                fieldName="Solutions"
-                onChange={(e) => solutionsRef.current = e.target.value}
-                placeholder="We Overcame..."
-            />
-            <ButtonOutline />
-            <Toaster />
-            <Floating onClick={() => router.push(`/dashboard/${userId}`)} generating={generating} setFloat={setFloat} float={float}/>
-        </div>
+                <InputArea
+                    fieldName="Testimonials"
+                    onChange={(e) => testimonialsRef.current = e.target.value}
+                    placeholder="We Have FDA Approvals"
+                />
+                <InputArea
+                    fieldName="Previous Projects"
+                    onChange={(e) => previousProjectsRef.current = e.target.value}
+                    placeholder="Taste Salts"
+                />
+                <InputArea
+                    fieldName="Executive Summary"
+                    onChange={(e) => executiveSummaryRef.current = e.target.value}
+                    placeholder="We are delighted..."
+                />
+                <InputArea
+                    fieldName="Pricing Sector"
+                    onChange={(e) => pricingSectorRef.current = e.target.value}
+                    placeholder="It's as cheap as..."
+                />
+                <InputArea
+                    fieldName="Objectives"
+                    onChange={(e) => objectivesRef.current = e.target.value}
+                    placeholder="We aim to..."
+                />
+                <InputArea
+                    fieldName="Problems"
+                    onChange={(e) => problemsRef.current = e.target.value}
+                    placeholder="Enter your message here"
+                />
+                <InputArea
+                    fieldName="Solutions"
+                    onChange={(e) => solutionsRef.current = e.target.value}
+                    placeholder="We Overcame..."
+                />
+                <ButtonOutline />
+                <Toaster />
+                <Floating onClick={() => router.push(`/dashboard/${userId}`)} generating={generating} setFloat={setFloat} float={float} />
+            </div>}
+
+        </>
     );
 }
