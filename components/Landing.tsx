@@ -2,7 +2,7 @@
 
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { MouseEventHandler, useRef, useState } from "react"
+import { MouseEventHandler, useEffect, useRef, useState } from "react"
 import { useRouter } from "next/navigation"
 import { signIn } from "next-auth/react";
 import { z } from 'zod'
@@ -22,6 +22,15 @@ export default function Landing() {
         username: z.string().email(),
         password: z.string().min(8)
     })
+
+    useEffect(() => {
+        //To spin up Render Backend
+        axios.get("https://dist-drafton.onrender.com/")
+        toast({
+            title: "Cold Start",
+            description: "Our servers are spinng up, hold on!",
+        })
+    }, [])
 
     const onSubmit = async () => {
         const data = {
