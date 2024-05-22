@@ -13,9 +13,3 @@ npx prisma generate
 npm run dev
 ```
 The api/v1/generate backend endpoint was needed to be shifted to Render due to Vercel's gateway timeout limit on free tier, so the app/api/generate file in this production is redundant.
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
